@@ -54,6 +54,12 @@ const generateUsage = [
           description: debugDesc,
         },
         {
+          name: 'only',
+          alias: 'x',
+          type: String,
+          description: "Only output the matched service ids (regexp)",
+        },
+        {
           name: 'help',
           alias: 'h',
           type: Boolean,
@@ -83,6 +89,7 @@ function parseArgumentsIntoOptions(args) {
     let preferred = true;
     let debug = false;
     let help = false;
+    let only = '';
 
     // iterate through supplied flags
     const flags = args.slice(4);
@@ -100,6 +107,10 @@ function parseArgumentsIntoOptions(args) {
             case '-d':
                 debug = true;
                 break;
+            case '--only':
+            case '-x':
+                only = flags[i].split('=')[1];
+                break;
             case 'help':
             case '--help':
             case '-h':
@@ -116,6 +127,7 @@ function parseArgumentsIntoOptions(args) {
         debug: debug,
         command: command,
         help: help,
+        only: only
     };
 }
 

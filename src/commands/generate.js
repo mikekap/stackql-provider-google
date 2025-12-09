@@ -188,6 +188,7 @@ export async function generateSpecs(options, rootDir) {
     const preferred = options.preferred;
     let outputDir = options.output;
     const provider = options.provider;
+    const only = options.only;
 
     logger.info(`generate called for ${provider}...`);
     debug ? logger.debug({rootDir: rootDir, ...options}) : null;
@@ -265,6 +266,10 @@ export async function generateSpecs(options, rootDir) {
                 return byName || byPattern;
             });
         }
+    }
+
+    if (only) {
+      services = services.filter(v => new RegExp(only).test(v.id));
     }
     
     logger.info(`processing: ${services.length} services...`);
